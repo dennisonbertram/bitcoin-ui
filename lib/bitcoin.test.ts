@@ -5,6 +5,7 @@ import {
   feeRateFrom,
   formatBtc,
   formatSats,
+  formatTimestamp,
   resolveAmountUnit,
   toSatoshis,
   truncateMiddle,
@@ -51,5 +52,11 @@ describe("Bitcoin formatting", () => {
   it("calculates fee rate from exact fees and vsize", () => {
     expect(feeRateFrom(3_124, 208)).toBeCloseTo(15.019, 3);
     expect(feeRateFrom(3_124, 0)).toBe(0);
+  });
+
+  it("formats timestamps in UTC for deterministic server hydration", () => {
+    expect(formatTimestamp(new Date("2026-07-22T21:36:00.000Z"))).toBe(
+      "Jul 22, 2026, 21:36",
+    );
   });
 });

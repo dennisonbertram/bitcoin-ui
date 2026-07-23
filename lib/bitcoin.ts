@@ -175,6 +175,7 @@ export function toDate(value: number | Date) {
 
 export function formatTimestamp(value: number | Date) {
   return new Intl.DateTimeFormat("en-US", {
+    timeZone: "UTC",
     year: "numeric",
     month: "short",
     day: "2-digit",
