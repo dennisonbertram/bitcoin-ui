@@ -47,7 +47,8 @@ export function ComponentPreview({
         }
       >
         <div className="component-preview__stage">
-          <div className="w-full min-w-0">{children}</div>
+          <span className="component-preview__stage-label">Preview</span>
+          <div className="component-preview__stage-content">{children}</div>
         </div>
         <figure className="component-preview__code">
           <figcaption>

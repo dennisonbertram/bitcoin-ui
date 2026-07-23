@@ -38,4 +38,22 @@ describe("gallery shell CSS", () => {
 
     expect(gallery).toContain('className="lg:grid-cols-2 2xl:grid-cols-4"');
   });
+
+  it("presents every component inside one integrated specimen bay", () => {
+    const css = readFileSync(resolve(process.cwd(), "app/gallery.css"), "utf8");
+    const preview = readFileSync(
+      resolve(process.cwd(), "components/gallery/component-preview.tsx"),
+      "utf8",
+    );
+
+    expect(css).toMatch(
+      /\[data-slot="component-preview"\][\s\S]*?overflow: clip[\s\S]*?border:/,
+    );
+    expect(css).toMatch(
+      /\.component-preview__code[\s\S]*?border-top:[\s\S]*?border-radius: 0/,
+    );
+    expect(preview).toContain(
+      'className="component-preview__stage-label">Preview',
+    );
+  });
 });

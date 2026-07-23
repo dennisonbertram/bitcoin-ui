@@ -275,10 +275,10 @@ export function BitcoinGallery() {
                 className="gallery-hero__copy gallery-reveal"
                 style={{ "--reveal-order": 0 } as CSSProperties}
               >
-                <h1>Bitcoin UIs suck. The tooling does too.</h1>
+                <h1>Build clear Bitcoin interfaces.</h1>
                 <p className="gallery-hero__lede">
-                  Bitcoin UI fixes both: clear, composable shadcn components
-                  for explorers, wallets, and node tools. Bring your own data.
+                  Clear, composable shadcn components for explorers, wallets,
+                  and node tools. Bring your own data.
                 </p>
                 <ul className="gallery-hero__tech" aria-label="Built with">
                   <li>React</li>

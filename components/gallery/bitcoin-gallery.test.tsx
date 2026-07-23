@@ -1,10 +1,23 @@
-import { render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import { BitcoinGallery } from "./bitcoin-gallery";
 
+afterEach(cleanup);
+
 describe("Bitcoin gallery", () => {
+  it("leads with a positive, concrete product promise", () => {
+    render(<BitcoinGallery />);
+
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: "Build clear Bitcoin interfaces.",
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("supports roving keyboard navigation for preview style", async () => {
     const user = userEvent.setup();
     render(<BitcoinGallery />);
