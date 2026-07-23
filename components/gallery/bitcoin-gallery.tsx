@@ -323,7 +323,11 @@ export function BitcoinGallery() {
                 </p>
               </div>
               <div>
-                <NetworkStats stats={demoStats} unstyled={unstyled} />
+                <NetworkStats
+                  stats={demoStats}
+                  unstyled={unstyled}
+                  className="lg:grid-cols-2 2xl:grid-cols-4"
+                />
                 <p className="gallery-hero__disclosure">
                   Fixture data. No network requests.
                 </p>
@@ -331,10 +335,7 @@ export function BitcoinGallery() {
             </div>
           </section>
 
-          <section
-            id="explorer-composition"
-            className="gallery-section scroll-mt-24"
-          >
+          <section id="explorer-composition" className="gallery-section">
             <SectionHeader
               title="Explorer composition"
               description="A complete explorer view composed from exported components. Connect Bitcoin Core, Esplora, Electrum, or your own indexer."
@@ -391,10 +392,7 @@ export function BitcoinGallery() {
             </div>
           </section>
 
-          <section
-            id="motion-lab"
-            className="gallery-section scroll-mt-24"
-          >
+          <section id="motion-lab" className="gallery-section">
             <div className="motion-lab__heading">
               <SectionHeader
                 title="Motion lab"

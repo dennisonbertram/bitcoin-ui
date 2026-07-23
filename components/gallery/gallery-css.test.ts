@@ -18,4 +18,24 @@ describe("gallery shell CSS", () => {
     expect(gallery).not.toContain('className="gallery-toolbar"');
     expect(css).not.toContain(".gallery-toolbar");
   });
+
+  it("uses one global sticky-header offset for every anchor target", () => {
+    const css = readFileSync(resolve(process.cwd(), "app/gallery.css"), "utf8");
+    const gallery = readFileSync(
+      resolve(process.cwd(), "components/gallery/bitcoin-gallery.tsx"),
+      "utf8",
+    );
+
+    expect(css).not.toContain("scroll-margin-top");
+    expect(gallery).not.toContain("scroll-mt-");
+  });
+
+  it("keeps hero network metrics readable in their narrow desktop column", () => {
+    const gallery = readFileSync(
+      resolve(process.cwd(), "components/gallery/bitcoin-gallery.tsx"),
+      "utf8",
+    );
+
+    expect(gallery).toContain('className="lg:grid-cols-2 2xl:grid-cols-4"');
+  });
 });
