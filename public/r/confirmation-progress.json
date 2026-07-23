@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "confirmation-progress",
+  "title": "Confirmation progress",
+  "description": "Accessible transaction confirmation progress.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/bitcoin-core",
+    "dennisonbertram/bitcoin-ui/bitcoin-theme"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/confirmation-progress.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport { clampPercent } from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport type { BitcoinVisualProps } from \"./shared\";\n\nexport type ConfirmationProgressProps = Omit<\n  ComponentProps<\"div\">,\n  \"children\"\n> &\n  BitcoinVisualProps & {\n    confirmations: number;\n    /** Confirmation target used for the progress calculation. @default 6 */\n    target?: number;\n    /** Shows the confirmation count beneath the track. @default true */\n    showLabel?: boolean;\n  };\n\nexport function ConfirmationProgress({\n  confirmations,\n  target = 6,\n  showLabel = true,\n  unstyled,\n  className,\n  ...props\n}: ConfirmationProgressProps) {\n  const safeTarget = Math.max(1, target);\n  const safeConfirmations = Math.max(0, confirmations);\n  const percent = clampPercent((safeConfirmations / safeTarget) * 100);\n  const complete = safeConfirmations >= safeTarget;\n  const label = complete\n    ? `${safeConfirmations} confirmations, final`\n    : `${safeConfirmations} of ${safeTarget} confirmations`;\n\n  return (\n    <div\n      data-slot=\"confirmation-progress\"\n      data-state={complete ? \"complete\" : \"confirming\"}\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        \"grid min-w-32 gap-1.5\",\n        className,\n      )}\n      {...props}\n    >\n      <div\n        data-slot=\"confirmation-progress-track\"\n        role=\"progressbar\"\n        aria-label=\"Transaction confirmations\"\n        aria-valuemin={0}\n        aria-valuemax={safeTarget}\n        aria-valuenow={Math.min(safeConfirmations, safeTarget)}\n        aria-valuetext={label}\n        className={componentClasses(\n          unstyled,\n          \"h-1.5 overflow-hidden rounded-[var(--radius-full)] bg-[var(--color-surface-active)]\",\n        )}\n      >\n        <span\n          data-slot=\"confirmation-progress-value\"\n          aria-hidden=\"true\"\n          className={componentClasses(\n            unstyled,\n            \"block h-full rounded-[var(--radius-full)] bg-[var(--color-bitcoin)]\",\n          )}\n          style={{ width: `${percent}%` }}\n        />\n      </div>\n      {showLabel ? (\n        <span\n          data-slot=\"confirmation-progress-label\"\n          className={componentClasses(\n            unstyled,\n            \"text-xs text-[var(--color-muted)]\",\n          )}\n        >\n          {complete\n            ? `${safeConfirmations} confirmations`\n            : `${safeConfirmations} / ${safeTarget} confirmations`}\n        </span>\n      ) : null}\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

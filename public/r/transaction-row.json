@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transaction-row",
+  "title": "Transaction row",
+  "description": "Transaction summary for explorer and wallet lists.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/bitcoin-amount",
+    "dennisonbertram/bitcoin-ui/confirmation-progress",
+    "dennisonbertram/bitcoin-ui/hash-display",
+    "dennisonbertram/bitcoin-ui/protocol-badges"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/transaction-row.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport {\n  feeRateFrom,\n  formatFeeRate,\n  formatRelativeTime,\n  toDate,\n  type BitcoinTransaction,\n} from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { BitcoinAmount } from \"./bitcoin-amount\";\nimport { ConfirmationProgress } from \"./confirmation-progress\";\nimport { HashDisplay } from \"./hash-display\";\nimport { type BitcoinVisualProps } from \"./shared\";\nimport { StatusBadge } from \"./status-badge\";\n\nexport type TransactionRowProps = Omit<ComponentProps<\"article\">, \"children\"> &\n  BitcoinVisualProps & {\n    transaction: BitcoinTransaction;\n    href?: string;\n    now?: number | Date;\n  };\n\nexport function TransactionRow({\n  transaction,\n  href,\n  now,\n  unstyled,\n  className,\n  ...props\n}: TransactionRowProps) {\n  const feeRate = feeRateFrom(transaction.fee, transaction.vsize);\n\n  return (\n    <article\n      data-slot=\"transaction-row\"\n      data-state={transaction.state}\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        \"grid min-w-0 gap-4 border-b border-[var(--color-rule-subtle)] py-4 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\",\n        className,\n      )}\n      {...props}\n    >\n      <div className=\"grid min-w-0 gap-2\">\n        <HashDisplay\n          value={transaction.txid}\n          label=\"Transaction ID\"\n          href={href}\n          unstyled={unstyled}\n        />\n        <div\n          className={componentClasses(\n            unstyled,\n            \"flex flex-wrap items-center gap-x-3 gap-y-2\",\n          )}\n        >\n          <StatusBadge state={transaction.state} unstyled={unstyled} />\n          <span\n            className={componentClasses(\n              unstyled,\n              \"font-mono text-xs tabular-nums text-[var(--color-muted)]\",\n            )}\n          >\n            {formatFeeRate(feeRate)}\n          </span>\n          {transaction.timestamp ? (\n            <time\n              dateTime={toDate(transaction.timestamp).toISOString()}\n              className={componentClasses(\n                unstyled,\n                \"text-xs text-[var(--color-muted)]\",\n              )}\n            >\n              {formatRelativeTime(transaction.timestamp, now)}\n            </time>\n          ) : null}\n        </div>\n      </div>\n      <div\n        className={componentClasses(\n          unstyled,\n          \"grid justify-items-start gap-2 sm:justify-items-end\",\n        )}\n      >\n        <BitcoinAmount value={transaction.value} unstyled={unstyled} />\n        {transaction.state === \"confirmed\" ? (\n          <ConfirmationProgress\n            confirmations={transaction.confirmations ?? 0}\n            showLabel={false}\n            className=\"w-28\"\n            unstyled={unstyled}\n          />\n        ) : (\n          <span\n            className={componentClasses(\n              unstyled,\n              \"font-mono text-xs tabular-nums text-[var(--color-muted)]\",\n            )}\n          >\n            {new Intl.NumberFormat(\"en-US\").format(transaction.vsize)} vB\n          </span>\n        )}\n      </div>\n    </article>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

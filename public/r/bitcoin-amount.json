@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bitcoin-amount",
+  "title": "Bitcoin amount",
+  "description": "Exact satoshi and BTC value formatting.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/bitcoin-core",
+    "dennisonbertram/bitcoin-ui/bitcoin-theme"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/bitcoin-amount.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport {\n  formatBtc,\n  formatSats,\n  resolveAmountUnit,\n  type AmountUnit,\n  type SatoshiValue,\n} from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport type { BitcoinVisualProps } from \"./shared\";\n\nexport type BitcoinAmountProps = Omit<ComponentProps<\"span\">, \"children\"> &\n  BitcoinVisualProps & {\n    /** Amount in satoshis. bigint is recommended for exact values. */\n    value: SatoshiValue;\n    /**\n     * Display unit. `auto` switches to BTC at 1,000,000 sats.\n     * @default \"auto\"\n     */\n    unit?: AmountUnit;\n    /** Includes the visible unit label. @default true */\n    showUnit?: boolean;\n    /** Smallest number of BTC decimal places to preserve. @default 0 */\n    minimumFractionDigits?: number;\n    /** Largest number of BTC decimal places to preserve. @default 8 */\n    maximumFractionDigits?: number;\n  };\n\nexport function BitcoinAmount({\n  value,\n  unit = \"auto\",\n  showUnit = true,\n  minimumFractionDigits = 0,\n  maximumFractionDigits = 8,\n  unstyled,\n  className,\n  ...props\n}: BitcoinAmountProps) {\n  const resolvedUnit = resolveAmountUnit(value, unit);\n  const amount =\n    resolvedUnit === \"btc\"\n      ? formatBtc(value, { minimumFractionDigits, maximumFractionDigits })\n      : formatSats(value);\n\n  return (\n    <span\n      data-slot=\"bitcoin-amount\"\n      data-unit={resolvedUnit}\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        \"inline-flex items-baseline gap-1 whitespace-nowrap font-mono text-sm font-medium tabular-nums tracking-[-0.02em]\",\n        className,\n      )}\n      {...props}\n    >\n      <span data-slot=\"bitcoin-amount-value\">{amount}</span>\n      {showUnit ? (\n        <span\n          data-slot=\"bitcoin-amount-unit\"\n          className={componentClasses(\n            unstyled,\n            \"font-sans text-[0.72em] font-medium tracking-normal text-[var(--color-muted)]\",\n          )}\n        >\n          {resolvedUnit === \"btc\" ? \"BTC\" : \"sat\"}\n        </span>\n      ) : null}\n    </span>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

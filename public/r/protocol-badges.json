@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "protocol-badges",
+  "title": "Protocol badges",
+  "description": "Network, transaction status, and script type badges.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/bitcoin-core",
+    "dennisonbertram/bitcoin-ui/bitcoin-theme"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/network-badge.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport { getNetworkLabel, type BitcoinNetwork } from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { badgeStyles, type BitcoinVisualProps } from \"./shared\";\n\nconst networkStyles: Record<BitcoinNetwork, string> = {\n  mainnet:\n    \"border-[var(--color-bitcoin)]/30 bg-[var(--color-bitcoin-soft)] text-[var(--color-bitcoin-ink)]\",\n  testnet:\n    \"border-[var(--color-info)]/30 bg-[var(--color-info-soft)] text-[var(--color-info)]\",\n  signet:\n    \"border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)] text-[var(--color-warning)]\",\n  regtest:\n    \"border-[var(--color-rule)] bg-[var(--color-surface)] text-[var(--color-muted-strong)]\",\n};\n\nexport type NetworkBadgeProps = Omit<ComponentProps<\"span\">, \"children\"> &\n  BitcoinVisualProps & {\n    network: BitcoinNetwork;\n    /** Shows the small network indicator dot. @default true */\n    showIndicator?: boolean;\n  };\n\nexport function NetworkBadge({\n  network,\n  showIndicator = true,\n  unstyled,\n  className,\n  ...props\n}: NetworkBadgeProps) {\n  return (\n    <span\n      data-slot=\"network-badge\"\n      data-network={network}\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        [badgeStyles, networkStyles[network]],\n        className,\n      )}\n      {...props}\n    >\n      {showIndicator ? (\n        <span\n          data-slot=\"network-badge-indicator\"\n          aria-hidden=\"true\"\n          className={componentClasses(\n            unstyled,\n            \"size-1.5 rounded-full bg-current\",\n          )}\n        />\n      ) : null}\n      {getNetworkLabel(network)}\n    </span>\n  );\n}\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "components/bitcoin/status-badge.tsx",
+      "content": "import {\n  CircleAlert,\n  CircleCheck,\n  Clock3,\n  Replace,\n  type LucideIcon,\n} from \"lucide-react\";\nimport type { ComponentProps } from \"react\";\n\nimport type { TransactionState } from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { badgeStyles, type BitcoinVisualProps } from \"./shared\";\n\nconst statusConfig: Record<\n  TransactionState,\n  { label: string; icon: LucideIcon; styles: string }\n> = {\n  confirmed: {\n    label: \"Confirmed\",\n    icon: CircleCheck,\n    styles:\n      \"border-[var(--color-success)]/30 bg-[var(--color-success-soft)] text-[var(--color-success)]\",\n  },\n  pending: {\n    label: \"In mempool\",\n    icon: Clock3,\n    styles:\n      \"border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)] text-[var(--color-warning)]\",\n  },\n  replaced: {\n    label: \"Replaced\",\n    icon: Replace,\n    styles:\n      \"border-[var(--color-info)]/30 bg-[var(--color-info-soft)] text-[var(--color-info)]\",\n  },\n  conflicted: {\n    label: \"Conflicted\",\n    icon: CircleAlert,\n    styles:\n      \"border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] text-[var(--color-danger)]\",\n  },\n};\n\nexport type StatusBadgeProps = Omit<ComponentProps<\"span\">, \"children\"> &\n  BitcoinVisualProps & {\n    state: TransactionState;\n    label?: string;\n    showIcon?: boolean;\n  };\n\nexport function StatusBadge({\n  state,\n  label,\n  showIcon = true,\n  unstyled,\n  className,\n  ...props\n}: StatusBadgeProps) {\n  const config = statusConfig[state];\n  const Icon = config.icon;\n\n  return (\n    <span\n      data-slot=\"status-badge\"\n      data-state={state}\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        [badgeStyles, config.styles],\n        className,\n      )}\n      {...props}\n    >\n      {showIcon ? (\n        <Icon\n          data-slot=\"status-badge-icon\"\n          className={componentClasses(unstyled, \"size-3\")}\n          aria-hidden=\"true\"\n        />\n      ) : null}\n      {label ?? config.label}\n    </span>\n  );\n}\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "components/bitcoin/script-badge.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport { getScriptLabel, type ScriptType } from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { badgeStyles, type BitcoinVisualProps } from \"./shared\";\n\nexport type ScriptBadgeProps = Omit<ComponentProps<\"span\">, \"children\"> &\n  BitcoinVisualProps & {\n    type: ScriptType;\n  };\n\nexport function ScriptBadge({\n  type,\n  unstyled,\n  className,\n  ...props\n}: ScriptBadgeProps) {\n  return (\n    <span\n      data-slot=\"script-badge\"\n      data-script-type={type}\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        [\n          badgeStyles,\n          \"rounded-[var(--radius-xs)] bg-[var(--color-surface)] font-mono text-[0.6875rem] font-medium text-[var(--color-muted-strong)]\",\n          type === \"p2tr\" &&\n            \"border-[var(--color-bitcoin)]/30 bg-[var(--color-bitcoin-soft)] text-[var(--color-bitcoin-ink)]\",\n          type === \"op-return\" &&\n            \"border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] text-[var(--color-danger)]\",\n        ],\n        className,\n      )}\n      {...props}\n    >\n      {getScriptLabel(type)}\n    </span>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

@@ -1,0 +1,62 @@
+@import "tailwindcss";
+@import "../tokens.css";
+@import "./gallery.css";
+
+@custom-variant dark (&:is(.dark *));
+
+* {
+  border-color: var(--color-rule);
+}
+
+html,
+body {
+  overflow-x: clip;
+  min-width: 20rem;
+  background: var(--color-paper);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--banner-height) + var(--space-6));
+}
+
+body {
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--color-bitcoin-ink);
+  background: var(--color-bitcoin-soft);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

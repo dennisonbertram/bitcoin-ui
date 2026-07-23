@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "address-display",
+  "title": "Address display",
+  "description": "Copyable Bitcoin address with network and script metadata.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/hash-display",
+    "dennisonbertram/bitcoin-ui/protocol-badges"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/address-display.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport type { BitcoinNetwork, ScriptType } from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { HashDisplay } from \"./hash-display\";\nimport { NetworkBadge } from \"./network-badge\";\nimport { ScriptBadge } from \"./script-badge\";\nimport { type BitcoinVisualProps } from \"./shared\";\n\nexport type AddressDisplayProps = Omit<ComponentProps<\"div\">, \"children\"> &\n  BitcoinVisualProps & {\n    address: string;\n    network?: BitcoinNetwork;\n    scriptType?: ScriptType;\n    label?: string;\n    href?: string;\n    copyable?: boolean;\n  };\n\nexport function AddressDisplay({\n  address,\n  network,\n  scriptType,\n  label,\n  href,\n  copyable = true,\n  unstyled,\n  className,\n  ...props\n}: AddressDisplayProps) {\n  return (\n    <div\n      data-slot=\"address-display\"\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(unstyled, \"grid min-w-0 gap-2\", className)}\n      {...props}\n    >\n      {label ? (\n        <span\n          data-slot=\"address-display-label\"\n          className={componentClasses(\n            unstyled,\n            \"text-xs text-[var(--color-muted)]\",\n          )}\n        >\n          {label}\n        </span>\n      ) : null}\n      <HashDisplay\n        value={address}\n        label=\"Address\"\n        href={href}\n        copyable={copyable}\n        startCharacters={12}\n        endCharacters={8}\n        unstyled={unstyled}\n      />\n      {network || scriptType ? (\n        <div\n          data-slot=\"address-display-meta\"\n          className={componentClasses(unstyled, \"flex flex-wrap gap-2\")}\n        >\n          {network ? (\n            <NetworkBadge network={network} unstyled={unstyled} />\n          ) : null}\n          {scriptType ? (\n            <ScriptBadge type={scriptType} unstyled={unstyled} />\n          ) : null}\n        </div>\n      ) : null}\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

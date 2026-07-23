@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "network-stats",
+  "title": "Network stats",
+  "description": "Composable peer network metrics.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/bitcoin-core",
+    "dennisonbertram/bitcoin-ui/bitcoin-theme"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/network-stats.tsx",
+      "content": "import type { ComponentProps, ReactNode } from \"react\";\n\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { panelStyles, type BitcoinVisualProps } from \"./shared\";\n\nexport interface NetworkStat {\n  label: string;\n  value: ReactNode;\n  detail?: ReactNode;\n}\n\nexport type NetworkStatsProps = Omit<ComponentProps<\"dl\">, \"children\"> &\n  BitcoinVisualProps & {\n    stats: NetworkStat[];\n  };\n\nexport function NetworkStats({\n  stats,\n  unstyled,\n  className,\n  ...props\n}: NetworkStatsProps) {\n  return (\n    <dl\n      data-slot=\"network-stats\"\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        [\n          panelStyles,\n          \"grid divide-y divide-[var(--color-rule-subtle)] overflow-hidden sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4\",\n        ],\n        className,\n      )}\n      {...props}\n    >\n      {stats.map((stat) => (\n        <div\n          key={stat.label}\n          data-slot=\"network-stat\"\n          className={componentClasses(unstyled, \"min-w-0 p-5\")}\n        >\n          <dt\n            className={componentClasses(\n              unstyled,\n              \"text-xs text-[var(--color-muted)]\",\n            )}\n          >\n            {stat.label}\n          </dt>\n          <dd\n            className={componentClasses(\n              unstyled,\n              \"mt-2 min-w-0 overflow-hidden text-ellipsis font-mono text-lg font-medium tabular-nums tracking-[-0.025em]\",\n            )}\n          >\n            {stat.value}\n          </dd>\n          {stat.detail ? (\n            <dd\n              className={componentClasses(\n                unstyled,\n                \"mt-1 text-xs text-[var(--color-muted)]\",\n              )}\n            >\n              {stat.detail}\n            </dd>\n          ) : null}\n        </div>\n      ))}\n    </dl>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

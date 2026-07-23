@@ -1,0 +1,58 @@
+{
+  "name": "bitcoin-ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open, shadcn-compatible React components for Bitcoin applications.",
+  "license": "MIT",
+  "homepage": "https://dennisonbertram.github.io/bitcoin-ui/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dennisonbertram/bitcoin-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dennisonbertram/bitcoin-ui/issues"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "pnpm registry:build && next build --webpack",
+    "build:pages": "GITHUB_PAGES=true pnpm registry:build && GITHUB_PAGES=true next build --webpack",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "registry:build": "shadcn build",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "packageManager": "pnpm@10.13.1",
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "geist": "^1.7.2",
+    "lucide-react": "^1.25.0",
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.2.11",
+    "jsdom": "^29.1.1",
+    "shadcn": "^4.14.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bitcoin UI"
+  short_description: "Build clear Bitcoin interfaces with shadcn"
+  default_prompt: "Use $bitcoin-ui to add accessible Bitcoin components to this React or Next.js project."

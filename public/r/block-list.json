@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "block-list",
+  "title": "Block list",
+  "description": "Dense recent-block list.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/hash-display"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/block-list.tsx",
+      "content": "import type { ComponentProps } from \"react\";\n\nimport {\n  formatBlockHeight,\n  formatRelativeTime,\n  type BitcoinBlock,\n} from \"@/lib/bitcoin\";\nimport { componentClasses } from \"@/lib/utils\";\n\nimport { HashDisplay } from \"./hash-display\";\nimport { type BitcoinVisualProps } from \"./shared\";\n\nexport type BlockListProps = Omit<ComponentProps<\"ol\">, \"children\"> &\n  BitcoinVisualProps & {\n    blocks: BitcoinBlock[];\n    now?: number | Date;\n    getHref?: (block: BitcoinBlock) => string | undefined;\n  };\n\nexport function BlockList({\n  blocks,\n  now,\n  getHref,\n  unstyled,\n  className,\n  ...props\n}: BlockListProps) {\n  return (\n    <ol\n      data-slot=\"block-list\"\n      data-unstyled={unstyled || undefined}\n      className={componentClasses(\n        unstyled,\n        \"m-0 list-none divide-y divide-[var(--color-rule-subtle)] p-0\",\n        className,\n      )}\n      {...props}\n    >\n      {blocks.map((block) => (\n        <li\n          key={block.hash}\n          data-slot=\"block-list-item\"\n          className={componentClasses(\n            unstyled,\n            \"grid min-w-0 gap-3 py-4 first:pt-0 last:pb-0 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center\",\n          )}\n        >\n          <span\n            className={componentClasses(\n              unstyled,\n              \"font-mono text-sm font-medium tabular-nums\",\n            )}\n          >\n            {formatBlockHeight(block.height)}\n          </span>\n          <HashDisplay\n            value={block.hash}\n            label=\"Block hash\"\n            href={getHref?.(block)}\n            unstyled={unstyled}\n          />\n          <span\n            className={componentClasses(\n              unstyled,\n              \"text-xs text-[var(--color-muted)] sm:text-right\",\n            )}\n          >\n            {block.transactionCount.toLocaleString(\"en-US\")} tx\n            <span aria-hidden=\"true\"> · </span>\n            <span className=\"sr-only\">, </span>\n            {formatRelativeTime(block.timestamp, now)}\n          </span>\n        </li>\n      ))}\n    </ol>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

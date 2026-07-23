@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bitcoin-ui",
+  "title": "Bitcoin UI complete suite",
+  "description": "All Bitcoin UI components, formatting utilities, and semantic theme tokens.",
+  "registryDependencies": [
+    "dennisonbertram/bitcoin-ui/address-display",
+    "dennisonbertram/bitcoin-ui/bitcoin-amount",
+    "dennisonbertram/bitcoin-ui/bitcoin-motion",
+    "dennisonbertram/bitcoin-ui/bitcoin-search",
+    "dennisonbertram/bitcoin-ui/block-card",
+    "dennisonbertram/bitcoin-ui/block-list",
+    "dennisonbertram/bitcoin-ui/confirmation-progress",
+    "dennisonbertram/bitcoin-ui/difficulty-adjustment",
+    "dennisonbertram/bitcoin-ui/fee-estimates",
+    "dennisonbertram/bitcoin-ui/halving-countdown",
+    "dennisonbertram/bitcoin-ui/hash-display",
+    "dennisonbertram/bitcoin-ui/longest-chain",
+    "dennisonbertram/bitcoin-ui/mempool-meter",
+    "dennisonbertram/bitcoin-ui/merkle-proof",
+    "dennisonbertram/bitcoin-ui/network-stats",
+    "dennisonbertram/bitcoin-ui/protocol-badges",
+    "dennisonbertram/bitcoin-ui/transaction-flow",
+    "dennisonbertram/bitcoin-ui/transaction-row",
+    "dennisonbertram/bitcoin-ui/utxo-table"
+  ],
+  "files": [
+    {
+      "path": "components/bitcoin/index.ts",
+      "content": "export * from \"./address-display\";\nexport * from \"./bitcoin-amount\";\nexport * from \"./bitcoin-motion\";\nexport * from \"./bitcoin-search\";\nexport * from \"./block-card\";\nexport * from \"./block-list\";\nexport * from \"./confirmation-progress\";\nexport * from \"./difficulty-adjustment\";\nexport * from \"./fee-estimates\";\nexport * from \"./halving-countdown\";\nexport * from \"./hash-display\";\nexport * from \"./longest-chain\";\nexport * from \"./mempool-meter\";\nexport * from \"./merkle-proof\";\nexport * from \"./network-badge\";\nexport * from \"./network-stats\";\nexport * from \"./script-badge\";\nexport * from \"./status-badge\";\nexport * from \"./transaction-flow\";\nexport * from \"./transaction-row\";\nexport * from \"./utxo-table\";\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:item"
+}
