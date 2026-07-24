@@ -50,10 +50,11 @@ describe("gallery shell CSS", () => {
       /\[data-slot="component-preview"\][\s\S]*?overflow: clip[\s\S]*?border:/,
     );
     expect(css).toMatch(
-      /\.component-preview__code[\s\S]*?border-top:[\s\S]*?border-radius: 0/,
+      /\.component-preview__install[\s\S]*?grid-template-columns:[\s\S]*?border-bottom:/,
     );
+    expect(preview).toContain('role="tablist"');
     expect(preview).toContain(
-      'className="component-preview__stage-label">Preview',
+      'className="component-preview__stage"',
     );
   });
 });

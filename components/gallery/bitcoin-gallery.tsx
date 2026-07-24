@@ -2,10 +2,12 @@
 
 import {
   ArrowDown,
+  ArrowRight,
   PackageOpen,
   Pause,
   Play,
   RotateCcw,
+  Search,
 } from "lucide-react";
 import {
   type CSSProperties,
@@ -71,6 +73,7 @@ const navigation = [
     label: "Start",
     items: [
       ["overview", "Overview"],
+      ["component-catalog", "Component catalog"],
       ["explorer-composition", "Explorer composition"],
     ],
   },
@@ -124,6 +127,18 @@ const navigation = [
   },
 ] as const;
 
+const catalogItems = navigation.flatMap((group) =>
+  group.items
+    .filter(
+      ([id]) => id !== "overview" && id !== "component-catalog",
+    )
+    .map(([id, label]) => ({
+      id,
+      label,
+      category: group.label,
+    })),
+);
+
 const suiteCommand =
   "npx shadcn@latest add dennisonbertram/bitcoin-ui/bitcoin-ui";
 
@@ -146,7 +161,16 @@ export function BitcoinGallery() {
   );
   const [motionCycle, setMotionCycle] = useState(0);
   const [motionPaused, setMotionPaused] = useState(false);
+  const [catalogQuery, setCatalogQuery] = useState("");
   const unstyled = styleMode === "unstyled";
+  const normalizedCatalogQuery = catalogQuery.trim().toLowerCase();
+  const visibleCatalogItems = normalizedCatalogQuery
+    ? catalogItems.filter((item) =>
+        `${item.label} ${item.category} ${item.id}`
+          .toLowerCase()
+          .includes(normalizedCatalogQuery),
+      )
+    : catalogItems;
   const motionInputs = demoInputs.map((input, index) => ({
     id: `${demoHash}:${index}`,
     label: `Input ${index + 1} · ${input.scriptType}`,
@@ -333,6 +357,55 @@ export function BitcoinGallery() {
                 </p>
               </div>
             </div>
+          </section>
+
+          <section id="component-catalog" className="gallery-section gallery-catalog">
+            <SectionHeader
+              title="Component catalog"
+              description="Scan the complete library, filter by Bitcoin concept, then jump directly into a live, installable specimen."
+            />
+            <div className="gallery-catalog__toolbar">
+              <label htmlFor="component-catalog-search" className="sr-only">
+                Search components
+              </label>
+              <Search aria-hidden="true" className="gallery-catalog__search-icon" />
+              <input
+                id="component-catalog-search"
+                type="search"
+                value={catalogQuery}
+                onChange={(event) => setCatalogQuery(event.target.value)}
+                placeholder="Search blocks, UTXOs, fees…"
+                autoComplete="off"
+              />
+              <span role="status" aria-live="polite">
+                {visibleCatalogItems.length} of {catalogItems.length}
+              </span>
+            </div>
+            {visibleCatalogItems.length > 0 ? (
+              <ul className="gallery-catalog__grid">
+                {visibleCatalogItems.map((item) => (
+                  <li key={item.id}>
+                    <a href={`#${item.id}`} className="gallery-catalog__item">
+                      <span className="gallery-catalog__category">
+                        {item.category}
+                      </span>
+                      <strong>{item.label}</strong>
+                      <span className="gallery-catalog__open">
+                        View
+                        <ArrowRight aria-hidden="true" className="size-4" />
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="gallery-catalog__empty">
+                <p>No components match “{catalogQuery}”.</p>
+                <button type="button" onClick={() => setCatalogQuery("")}>
+                  Clear search
+                </button>
+              </div>
+            )}
           </section>
 
           <section id="explorer-composition" className="gallery-section">
